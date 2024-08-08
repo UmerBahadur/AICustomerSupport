@@ -1,95 +1,145 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import React, { useState, useEffect } from 'react';
+import { Box, Container, Typography, TextField, InputAdornment, IconButton, Button } from '@mui/material';
+import { Send } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
+
+const Page = () => {
+  const [messages, setMessages] = useState([
+    { text: "Hello! How can I assist you today?", user: false },
+    { text: "I need help with my order.", user: true },
+  ]);
+
+  const router = useRouter();
+
+  const handleSend = (message) => {
+    setMessages([...messages, { text: message, user: true }]);
+  };
+
+  const handleLogout = () => {
+    router.push('./login-signup');
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <Box sx={{
+      minHeight: '100vh',
+      backgroundColor: '#0071ce',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}>
+      <Container maxWidth="md" sx={{
+        backgroundColor: '#fff',
+        borderRadius: '20px',
+        padding: '25px',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+        color: '#333',
+        width: '500px',
+        minHeight: '700px',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+      }}>
+        <Box sx={{ textAlign: 'center', marginBottom: '20px' }}>
+          <img src="./wallmart.webp" alt="Walmart Logo" style={{ width: '80px', marginBottom: '10px' }} />
+          <Typography variant="h5" sx={{ fontWeight: 'bold', marginTop: '10px', color: '#0071ce' }}>
+            Welcome to Walmart!
+          </Typography>
+          <Typography variant="body2" sx={{ marginTop: '10px', color: '#555' }}>
+            How can we assist you today?
+          </Typography>
+        </Box>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+        <Box sx={{
+          flexGrow: 1,
+          backgroundColor: '#f1f1f1',
+          borderRadius: '10px',
+          padding: '15px',
+          overflowY: 'auto',
+          marginBottom: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+          {messages.map((msg, index) => (
+            <Box
+              key={index}
+              sx={{
+                marginBottom: '10px',
+                padding: '10px',
+                backgroundColor: msg.user ? '#e0e0e0' : '#0071ce',
+                color: msg.user ? '#333' : '#fff',
+                borderRadius: msg.user ? '10px 10px 0 10px' : '10px 10px 10px 0',
+                maxWidth: '80%',
+                wordWrap: 'break-word',
+                alignSelf: msg.user ? 'flex-end' : 'flex-start',
+              }}
+            >
+              {msg.text}
+            </Box>
+          ))}
+        </Box>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: '#f1f1f1',
+          borderRadius: '30px',
+          padding: '8px 16px',
+          position: 'relative',
+          bottom: '0px',
+        }}>
+          <TextField
+            variant="outlined"
+            fullWidth
+            placeholder="Type your prompt here..."
+            sx={{
+              input: { color: '#333' },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'transparent',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'transparent',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'transparent',
+                },
+              },
+              backgroundColor: '#e0e0e0',
+              borderRadius: '30px',
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton sx={{ color: '#0071ce' }} onClick={() => handleSend("User's message")}>
+                    <Send />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: '#0071ce',
+            color: '#fff',
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            '&:hover': {
+              backgroundColor: '#005bb5',
+            },
+          }}
+          onClick={handleLogout}
         >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+          Logout
+        </Button>
+      </Container>
+    </Box>
   );
-}
+};
+
+export default Page;
