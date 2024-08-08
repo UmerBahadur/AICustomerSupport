@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Box, Container, Typography, TextField, Button, Link } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import { auth, db, createUserWithEmailAndPassword, ref, set } from '/firebase'; // Adjust the import path as needed
 
 const Signup = () => {
   const router = useRouter();
@@ -26,10 +27,25 @@ const Signup = () => {
     }
   };
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     validatePassword(password);
-    if (!passwordError) {
-      // Add signup logic here
+    if (passwordError) return; // Exit if password validation fails
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Store additional user data in Realtime Database
+      await set(ref(db, 'users/' + user.uid), {
+        username,
+        email
+      });
+
+      // Navigate to login page
+      router.push('/pages/login');
+    } catch (error) {
+      console.error('Error signing up:', error.message);
+      // Handle error (e.g., show error message to user)
     }
   };
 

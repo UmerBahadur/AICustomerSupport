@@ -1,11 +1,26 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Container, Typography, TextField, Button, Link } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import { auth, signInWithEmailAndPassword } from '/firebase';
 
 const Login = () => {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // Navigate to another page or show success message
+      router.push('/'); // Adjust this route as needed
+    } catch (error) {
+      console.error('Error logging in:', error.message);
+      setLoginError('Invalid email or password');
+    }
+  };
 
   return (
     <Box sx={{
@@ -35,6 +50,8 @@ const Login = () => {
           variant="outlined"
           fullWidth
           sx={{ marginBottom: '20px' }}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           label="Password"
@@ -42,6 +59,10 @@ const Login = () => {
           variant="outlined"
           fullWidth
           sx={{ marginBottom: '20px' }}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          helperText={loginError}
+          error={Boolean(loginError)}
         />
         <Button
           variant="contained"
@@ -54,11 +75,12 @@ const Login = () => {
               backgroundColor: '#005bb5',
             },
           }}
+          onClick={handleLogin}
         >
           Login
         </Button>
         <Typography variant="body2" sx={{ marginTop: '20px', color: '#555' }}>
-          New to Walmart Customer Support?{' '}
+          Don't have an account?{' '}
           <Link
             component="button"
             variant="body2"
