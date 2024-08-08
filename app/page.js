@@ -33,7 +33,7 @@ const Page = () => {
   };
 
   const handleLogout = () => {
-    router.push('/login-signup');
+    router.push('/pages/login-signup');
   };
 
   return (
