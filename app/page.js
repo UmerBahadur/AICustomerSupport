@@ -1,24 +1,39 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Container, Typography, TextField, InputAdornment, IconButton, Button } from '@mui/material';
 import { Send } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
+import axios from 'axios'; // Import axios for making HTTP requests
 
 const Page = () => {
   const [messages, setMessages] = useState([
     { text: "Hello! How can I assist you today?", user: false },
-    { text: "I need help with my order.", user: true },
   ]);
-
+  const [input, setInput] = useState('');
   const router = useRouter();
 
-  const handleSend = (message) => {
-    setMessages([...messages, { text: message, user: true }]);
+  const handleSend = async () => {
+    if (input.trim() === '') return;
+
+    // Add user message to the chat
+    setMessages([...messages, { text: input, user: true }]);
+    setInput('');
+
+    try {
+      // Send user message to the API
+      const response = await axios.post('/api/chat', { userMessage: input });
+      const aiResponse = response.data.response;
+
+      // Add AI response to the chat
+      setMessages([...messages, { text: input, user: true }, { text: aiResponse, user: false }]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
   };
 
   const handleLogout = () => {
-    router.push('./login-signup');
+    router.push('/login-signup');
   };
 
   return (
@@ -28,6 +43,7 @@ const Page = () => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      position: 'relative', // Ensure this is relative for absolute positioning of logout button
     }}>
       <Container maxWidth="md" sx={{
         backgroundColor: '#fff',
@@ -41,9 +57,9 @@ const Page = () => {
         flexDirection: 'column',
         position: 'relative',
       }}>
-        <Box sx={{ textAlign: 'center', marginBottom: '20px' }}>
-          <img src="./wallmart.webp" alt="Walmart Logo" style={{ width: '80px', marginBottom: '10px' }} />
-          <Typography variant="h5" sx={{ fontWeight: 'bold', marginTop: '10px', color: '#0071ce' }}>
+        <Box sx={{ textAlign: 'center', marginBottom: '20px', position: 'relative' }}>
+          <img src="./wallmart.png" alt="Wallmart Logo" style={{ width: '120px', marginBottom: '0px', }} />
+          <Typography variant="h5" sx={{ fontWeight: 'bold', marginTop: '0px', color: '#0071ce' }}>
             Welcome to Walmart!
           </Typography>
           <Typography variant="body2" sx={{ marginTop: '10px', color: '#555' }}>
@@ -93,6 +109,8 @@ const Page = () => {
             variant="outlined"
             fullWidth
             placeholder="Type your prompt here..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
             sx={{
               input: { color: '#333' },
               '& .MuiOutlinedInput-root': {
@@ -112,7 +130,7 @@ const Page = () => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton sx={{ color: '#0071ce' }} onClick={() => handleSend("User's message")}>
+                  <IconButton sx={{ color: '#0071ce' }} onClick={handleSend}>
                     <Send />
                   </IconButton>
                 </InputAdornment>
