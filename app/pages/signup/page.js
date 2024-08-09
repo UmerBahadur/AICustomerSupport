@@ -67,10 +67,10 @@ const Signup = () => {
       }}>
         <img src="/wallmart.png" alt="Walmart Logo" style={{ width: '200px', marginBottom: '20px' }} />
         <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#0071ce', marginBottom: '5px' }}>
-          New to Walmart AI Customer Support? Sign up for an account now!
+          Create your free account to get started.
         </Typography>
         <Typography variant="h6" sx={{ marginBottom: '20px', color: '#555' }}>
-          Create your account!
+          Sign Up
         </Typography>
         <TextField
           label="Username"
@@ -132,7 +132,7 @@ const Signup = () => {
           <Link
             component="button"
             variant="body2"
-            onClick={() => router.push('/pages/login')} // Navigate to Login page
+            onClick={() => router.push('/pages/login-signup')} // Navigate to Login page
             sx={{ color: '#0071ce', textDecoration: 'underline' }}
           >
             Login
