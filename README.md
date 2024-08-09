@@ -4,9 +4,6 @@
   <a href="https://github.com/UmerBahadur/AICustomerSupport">
     <img src="https://img.shields.io/badge/Repository%20Status-Maintained-dark%20green.svg" alt="Repository Status">
   </a>
-  <a href="https://github.com/UmerBahadur/AICustomerSupport">
-    <img src="https://img.shields.io/badge/Author-Muhammad%20Usman%20%26%20Umer%20Bahadur-blue.svg" alt="Author">
-  </a>
     <a href="https://github.com/UmerBahadur/AICustomerSupport">
     <img src="https://img.shields.io/badge/Website%20Status-Online-dark%20green" alt="Website Status">
   </a>
@@ -61,5 +58,3 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Contributing
 Contributions are welcome! If you encounter any issues or have suggestions for improvement, please open an issue or submit a pull request. Your feedback and contributions are highly appreciated.
-
-<p align="center">Please hit us up at <a target="_blank" href="mailto:robinhoodfrost360@gmail.com">robinhoodfrost360@gmail.com</a> or <a target="_blank" href="mailto:umerbahadur982@gmail.com">umerbahadur982@gmail.com</a>  if you have any feedback or ideas for the chatbot.</p>
