@@ -80,7 +80,7 @@ const Login = () => {
           Login
         </Button>
         <Typography variant="body2" sx={{ marginTop: '20px', color: '#555' }}>
-          Don't have an account?{' '}
+          Dont have an account?{' '}
           <Link
             component="button"
             variant="body2"
