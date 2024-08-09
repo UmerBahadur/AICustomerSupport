@@ -31,6 +31,12 @@ const Page = () => {
       console.error('Error sending message:', error);
     }
   };
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default action, which might be submitting a form or adding a new line.
+      handleSend();
+    }
+  };
 
   const handleLogout = () => {
     router.push('/pages/login-signup');
@@ -110,6 +116,7 @@ const Page = () => {
             fullWidth
             placeholder="Type your prompt here..."
             value={input}
+            onKeyPress={handleKeyPress}
             onChange={(e) => setInput(e.target.value)}
             sx={{
               input: { color: '#333' },
