@@ -15,7 +15,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       // Navigate to another page or show success message
-      router.push('/'); // Adjust this route as needed
+      router.push('/pages/Chat-Page'); // Adjust this route as needed
     } catch (error) {
       console.error('Error logging in:', error.message);
       setLoginError('Invalid email or password');

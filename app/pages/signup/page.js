@@ -16,12 +16,11 @@ const Signup = () => {
     const hasUpperCase = /[A-Z]/.test(pwd);
     const hasLowerCase = /[a-z]/.test(pwd);
     const hasNumber = /\d/.test(pwd);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(pwd);
     
     if (pwd.length < 8) {
       setPasswordError('Password must be at least 8 characters long.');
-    } else if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
-      setPasswordError('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.');
+    } else if (!hasUpperCase || !hasLowerCase || !hasNumber) {
+      setPasswordError('Password must contain at least one uppercase letter, one lowercase letter and one number.');
     } else {
       setPasswordError('');
     }
@@ -109,7 +108,7 @@ const Signup = () => {
           fontSize: '14px', // Slightly smaller font size
         }}>
           <Typography variant="body2">
-            All new passwords must contain at least 8 characters. We also suggest having at least one capital and one lower-case letter (Aa-Zz), one special symbol (#, &, % etc), and one number (0-9) in your password for the best strength.
+            All new passwords must contain at least 8 characters. We also suggest having at least one capital and one lower-case letter (Aa-Zz) and one number (0-9) in your password for the best strength.
           </Typography>
         </Box>
         <Button
@@ -132,7 +131,7 @@ const Signup = () => {
           <Link
             component="button"
             variant="body2"
-            onClick={() => router.push('/pages/login-signup')} // Navigate to Login page
+            onClick={() => router.push('/')} // Navigate to Login page
             sx={{ color: '#0071ce', textDecoration: 'underline' }}
           >
             Login
