@@ -3,7 +3,9 @@
 import React, { useState } from 'react';
 import { Box, Container, Typography, TextField, Button, Link } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { auth, db, createUserWithEmailAndPassword, ref, set } from '/firebase'; // Adjust the import path as needed
+import { auth, db } from '/firebase'; // Adjust the import path as needed
+import { createUserWithEmailAndPassword } from 'firebase/auth'; // Import from Firebase auth
+import { ref, set } from 'firebase/database'; // Import from Firebase database
 
 const Signup = () => {
   const router = useRouter();
@@ -16,11 +18,11 @@ const Signup = () => {
     const hasUpperCase = /[A-Z]/.test(pwd);
     const hasLowerCase = /[a-z]/.test(pwd);
     const hasNumber = /\d/.test(pwd);
-    
+
     if (pwd.length < 8) {
       setPasswordError('Password must be at least 8 characters long.');
     } else if (!hasUpperCase || !hasLowerCase || !hasNumber) {
-      setPasswordError('Password must contain at least one uppercase letter, one lowercase letter and one number.');
+      setPasswordError('Password must contain at least one uppercase letter, one lowercase letter, and one number.');
     } else {
       setPasswordError('');
     }
@@ -37,7 +39,7 @@ const Signup = () => {
       // Store additional user data in Realtime Database
       await set(ref(db, 'users/' + user.uid), {
         username,
-        email
+        email,
       });
 
       // Navigate to login page
@@ -49,23 +51,35 @@ const Signup = () => {
   };
 
   return (
-    <Box sx={{
-      minHeight: '100vh',
-      backgroundColor: '#0071ce', // Walmart blue background
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}>
-      <Container maxWidth="sm" sx={{
-        backgroundColor: '#fff',
-        borderRadius: '20px',
-        padding: '25px',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
-        color: '#333',
-        textAlign: 'center',
-      }}>
-        <img src="/wallmart.png" alt="Walmart Logo" style={{ width: '200px', marginBottom: '20px' }} />
-        <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#0071ce', marginBottom: '5px' }}>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: '#0071ce', // Walmart blue background
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Container
+        maxWidth="sm"
+        sx={{
+          backgroundColor: '#fff',
+          borderRadius: '20px',
+          padding: '25px',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+          color: '#333',
+          textAlign: 'center',
+        }}
+      >
+        <img
+          src="/wallmart.png"
+          alt="Walmart Logo"
+          style={{ width: '200px', marginBottom: '20px' }}
+        />
+        <Typography
+          variant="h5"
+          sx={{ fontWeight: 'bold', color: '#0071ce', marginBottom: '5px' }}
+        >
           Create your free account to get started.
         </Typography>
         <Typography variant="h6" sx={{ marginBottom: '20px', color: '#555' }}>
@@ -98,15 +112,17 @@ const Signup = () => {
           helperText={passwordError}
           error={Boolean(passwordError)}
         />
-        <Box sx={{
-          backgroundColor: '#f7a03c', // Walmart orange
-          color: '#fff',
-          borderRadius: '5px',
-          padding: '15px',
-          marginBottom: '20px',
-          textAlign: 'left',
-          fontSize: '14px', // Slightly smaller font size
-        }}>
+        <Box
+          sx={{
+            backgroundColor: '#f7a03c', // Walmart orange
+            color: '#fff',
+            borderRadius: '5px',
+            padding: '15px',
+            marginBottom: '20px',
+            textAlign: 'left',
+            fontSize: '14px', // Slightly smaller font size
+          }}
+        >
           <Typography variant="body2">
             All new passwords must contain at least 8 characters. We also suggest having at least one capital and one lower-case letter (Aa-Zz) and one number (0-9) in your password for the best strength.
           </Typography>
@@ -126,12 +142,15 @@ const Signup = () => {
         >
           Sign Up
         </Button>
-        <Typography variant="body2" sx={{ marginTop: '20px', color: '#555' }}>
+        <Typography
+          variant="body2"
+          sx={{ marginTop: '20px', color: '#555' }}
+        >
           Already have an account?{' '}
           <Link
             component="button"
             variant="body2"
-            onClick={() => router.push('/')} // Navigate to Login page
+            onClick={() => router.push('/pages/login')} // Navigate to Login page
             sx={{ color: '#0071ce', textDecoration: 'underline' }}
           >
             Login
