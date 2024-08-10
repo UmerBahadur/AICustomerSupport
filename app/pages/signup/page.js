@@ -1,11 +1,10 @@
-"use client";
-
+'use client';
 import React, { useState } from 'react';
 import { Box, Container, Typography, TextField, Button, Link } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { auth, db } from '/firebase'; // Adjust the import path as needed
-import { createUserWithEmailAndPassword } from 'firebase/auth'; // Import from Firebase auth
-import { ref, set } from 'firebase/database'; // Import from Firebase database
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 const Signup = () => {
   const router = useRouter();
@@ -28,25 +27,34 @@ const Signup = () => {
     }
   };
 
+  const saveUserData = async (email, username) => {
+    try {
+      const docRef = doc(db, 'users', email);
+      await setDoc(docRef, {
+        name: username,
+      });
+
+      console.log('User data saved successfully');
+    } catch (error) {
+      console.error('Error saving user data:', error);
+    }
+  };
+
   const handleSignup = async () => {
     validatePassword(password);
-    if (passwordError) return; // Exit if password validation fails
+    if (passwordError) return;
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Store additional user data in Realtime Database
-      await set(ref(db, 'users/' + user.uid), {
-        username,
-        email,
-      });
+      // Save user data in Firestore
+      await saveUserData(email, username);
 
       // Navigate to login page
       router.push('/pages/login');
     } catch (error) {
       console.error('Error signing up:', error.message);
-      // Handle error (e.g., show error message to user)
     }
   };
 
@@ -54,7 +62,7 @@ const Signup = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        backgroundColor: '#0071ce', // Walmart blue background
+        backgroundColor: '#0071ce',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -114,13 +122,13 @@ const Signup = () => {
         />
         <Box
           sx={{
-            backgroundColor: '#f7a03c', // Walmart orange
+            backgroundColor: '#f7a03c',
             color: '#fff',
             borderRadius: '5px',
             padding: '15px',
             marginBottom: '20px',
             textAlign: 'left',
-            fontSize: '14px', // Slightly smaller font size
+            fontSize: '14px',
           }}
         >
           <Typography variant="body2">
@@ -150,7 +158,7 @@ const Signup = () => {
           <Link
             component="button"
             variant="body2"
-            onClick={() => router.push('/pages/login')} // Navigate to Login page
+            onClick={() => router.push('/pages/login')}
             sx={{ color: '#0071ce', textDecoration: 'underline' }}
           >
             Login

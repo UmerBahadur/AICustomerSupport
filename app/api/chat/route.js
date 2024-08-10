@@ -7,9 +7,7 @@ const model = genAI.getGenerativeModel({
   model: "gemini-1.5-flash",
   systemInstruction: `
 You are Walt, a friendly assistant for Walmart. First ask users if they prefer a language other than English, and assist in that language if requested.
-Answer queries strictly based on Walmart's support guidelines mostly from their FAQ pageand 
-deny unrelated questions. 
- Each user has their own chat session, loaded from Firebase.
+try to answer only walmart related questions or any ruestions that are about things sold at stores.
 
 Refer to the FAQ for answers:
 Walmart FAQ: https://corporate.walmart.com/frequently-asked-questions
@@ -24,9 +22,9 @@ For store hours, say: "Store hours vary. Common hours are 8 AM - 10 PM. Use the 
 });
 
 const generationConfig = {
-  temperature: 0.8,
-  topP: 0.88,
-  topK: 59,
+  temperature: 0.9,
+  topP: 0.95,
+  topK: 64,
   maxOutputTokens: 8192,
   responseMimeType: "text/plain",
 };
