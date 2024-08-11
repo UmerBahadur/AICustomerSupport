@@ -21,6 +21,15 @@
 Live Link — https://ai-customer-support-seven.vercel.app/
 </p> 
 
+## CREATORS
+
+<p align="center">
+  <a target="_blank" href="https://github.com/vUsmanK">vUsmanK</a> |
+  <a target="_blank" href="https://github.com/UmerBahadur">UmerBahadur</a> |
+  <a target="_blank" href="https://github.com/arjya12">arjya12</a> |
+  <a target="_blank" href="https://github.com/YameenZ1">YameenZ1</a>
+</p>
+
 ## DETAILS
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
